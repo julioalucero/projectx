@@ -1,0 +1,25 @@
+<% allow_edit ||= false %>
+
+<% if project.parent %>
+  <span class="parent-link">
+    <%= link_to project.parent.title, project_path(project.parent) %> &raquo;
+  </span>
+<% end %>
+
+<% if allow_edit && is_unlocked?(project) %>
+  <div class="project-title">
+    <button><%= project.title %></button>
+    <%= form_for project, remote: true do |f| %>
+      <%= f.text_field :title, required: true %>
+      <%= f.submit "Save", class: "button" %>
+      <%= button_tag "Cancel", class: "button cancel magenta" %>
+    <% end %>
+  </div>
+<% else %>
+  <%= project.title %>
+<% end %>
+
+<div>
+  <span class="status-badge locked <%= "hide" if project.locked_at.nil? %>">Locked</span>
+  <span class="status-badge <%= project.status %> <%= "hide" if project.status.nil? %>"><%= project.status %></span>
+</div>

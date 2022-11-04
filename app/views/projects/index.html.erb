@@ -1,0 +1,41 @@
+<div class="container">
+  <h1 class="home-title">Projects</h1>
+
+  <% if @projects.any? %>
+    <div class="row" id="projects">
+      <% @projects.each do | project | %>
+        <div class="col-sm-6 col-lg-4">
+          <div class="project-card" id="project_<%= project.id %>">
+            <%= link_to project_path(project.id) do %>
+              <div>
+                <h2><%= project.title %></h2>
+                <span class="status-badge locked <%= "hide" if project.locked_at.nil? %>">Locked</span>
+                <span class="status-badge <%= project.status %>"><%= project.status %></span>
+              </div>
+            <% end %>
+            <div class="sortable-projects" data-url="<%= sort_project_path(project.id) %>">
+              <% project.projects.each do |subproj| %>
+                <%= link_to subproj.title, project_path(subproj), class: "project-card sub", id: dom_id(subproj) %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p> You don't have any active projects. </p>
+  <% end %>
+
+  <div class="btn-group">
+    <%= link_to "Add a Project", new_project_path, class: "button", id: "create-button" %>
+    <% if params[:archived] == "true" %>
+      <%= link_to "Hide Archived Projects", projects_path, class: "button" %>
+    <% else %>
+      <%= link_to "See Archived Projects", projects_path(archived: true), class: "button" %>
+    <% end %>
+    <% if current_user.admin? %>
+      <%= link_to "View Reports", reports_index_path, class: "button", id: "create-button" %>
+    <% end %>
+  </div>
+
+</div>

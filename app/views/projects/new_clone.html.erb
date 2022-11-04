@@ -1,0 +1,36 @@
+<div class="container">
+  <h2>Clone project <%= @original.title %></h2>
+
+  <%= form_for @original, url: clone_project_path(@original), method: :post do |f| %>
+    <div class="field">
+      <%= f.label :title %>
+      <%= f.text_field :title, placeholder: "Project Title", class: "project-story-title" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :parent_id %>
+      <%= f.select :parent_id, options_from_collection_for_select(Project.active.parents, :id, :title, selected: @original.parent_id), include_blank: "None" %>
+    </div>
+
+    <% if @original.projects.any? %>
+      <div id="sub-projects-to-clone">
+        <h4>Sub-projects to clone</h4>
+        <p>Select which sub-projects will be cloned</p>
+        <% @original.projects.each do |sub| %>
+          <label>
+            <%= check_box_tag "sub_project_ids[]", sub.id, checked: true %>
+            <%= sub.title %>
+          </label>
+        <% end %>
+        <%= button_tag "Select all", id: "select-all" %>
+        <%= button_tag "Unselect all", id: "unselect-all" %>
+        <p class="no-parent-disclaimer">Can't clone sub-projects if it's not a parent project</p>
+      </div>
+    <% end %>
+
+    <div class="actions">
+      <%= button_tag "Clone", class: "button", type: "submit" %>
+      <%= link_to 'Back', project_path(@original.id), id:"back", class: "button" %>
+    </div>
+  <% end %>
+</div>

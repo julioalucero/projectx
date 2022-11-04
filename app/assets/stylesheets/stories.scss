@@ -1,0 +1,128 @@
+.project_id {
+  padding: 5px;
+  font-size: 15px;
+}
+.stories-controller.show-action h1 {
+  margin-top: 0.5em;
+}
+
+.word-break {
+  word-break: break-all;
+}
+
+.story-description, .extra-info, .story_preview {
+  margin-bottom: 25px;
+  font-size: 15px;
+  p{
+    margin-top: 1em;
+  }
+  em {
+    font-style: italic;
+  }
+
+  strong {
+    font-weight: bold;
+  }
+
+  ul {
+    padding-top: 1em;
+    padding-bottom: 1em;
+    list-style-position: inside;
+    list-style-type: circle;
+  }
+}
+
+#first {
+  margin-right: 25px;
+}
+
+.estimate {
+  padding: 5px;
+  width: 200px;
+}
+
+.checkbox input[type="checkbox"] {
+  width: 15px;
+}
+
+.modal .story-description h1 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.modal .story-description p {
+  overflow: auto;
+  margin-bottom: 1.5em;
+}
+
+
+.modal p {
+  padding-bottom: 1.3em;
+}
+
+.new_story,
+.edit_story {
+  display: grid;
+  grid-template-areas:
+    "error error"
+    "title preview"
+    "description preview"
+    "extra extra-preview"
+    "submit .";
+  grid-template-columns: repeat(2, minmax(50%, 1fr));
+  grid-column-gap: 10px;
+
+  #error_explanation {
+    grid-area: error;
+  }
+
+  .field {
+    align-self: start;
+
+    &.story_title {
+      grid-area: title;
+    }
+
+    &.story_description {
+      grid-area: description;
+    }
+
+    &.story_extra_info {
+      grid-area: extra;
+    }
+  }
+
+  .story_preview {
+    grid-area: preview;
+  }
+
+  .extra_info_preview {
+    grid-area: extra-preview;
+  }
+
+  .extra_info_preview .content, .story_preview .content {
+    overflow: auto;
+    max-height: min(50vh, 700px);
+    // prevent long links from overflowing
+    a {
+      word-break: break-all;
+    }
+  }
+
+  .btn-group {
+    justify-self: start;
+    grid-area: submit;
+  }
+}
+
+.popup {
+  display: none;
+  position: absolute;
+  top: 5px;
+  left: 30px;
+  background: #d9f1f1;
+  height: 30px;
+  width: 140px;
+  border: 1px solid #9b054d;
+  padding: 5px;
+}

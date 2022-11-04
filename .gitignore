@@ -1,0 +1,17 @@
+tmp/**/*
+tmp
+log/*.log
+config/database.yml
+.ruby-version
+.tool-versions
+.env
+.byebug_history
+.tool-versions
+.DS_Store
+
+node_modules
+yarn-error.log
+yarn-debug.log*
+.yarn-integrity
+
+db/*.sqlite3

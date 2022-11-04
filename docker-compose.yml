@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:10.9-alpine
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  web: &web
+    build: .
+    volumes:
+      - ".:/code:delegated"
+    command: bash -c "rm -rf /code/tmp/pids && bundle exec rails s -b 0.0.0.0"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment: &envs
+      POINTS_DB_NAME: points-development
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_HOST: db
+    stdin_open: true
+    tty: true
+
+# Declare the volumes that our application uses.
+volumes:
+  db_data:

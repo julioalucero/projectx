@@ -1,0 +1,35 @@
+<% remote ||= false %>
+
+<%= form_for [project, story, estimate], remote: remote do |f| %>
+  <% if estimate.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(estimate.errors.count, "error") %> prohibited this estimate from being saved:</h2>
+
+      <ul>
+      <% estimate.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="estimate_wrapper">
+    <div class="field" id="first">
+      <%= f.label "Best Case Estimate (Story Points)" %>
+      <%= f.select :best_case_points, fib_numbers, {}, class: "estimate" %>
+    </div>
+
+    <div class="field" id="second">
+      <%= f.label "Worst Case Estimate (Story Points)" %>
+      <%= f.select :worst_case_points, fib_numbers, {}, class: "estimate" %>
+    </div>
+  </div>
+
+  <div class="btn-group">
+    <%= f.submit yield(:button_text), class: "button", id: "edit" %>
+  </div>
+
+  <% if estimate.persisted? %>
+    <%= link_to "Delete Estimate", project_story_estimate_path(project.id, story, estimate.id), method: "delete", data: { confirm: "Are you sure?" }, class: "button magenta" %>
+  <% end %>
+<% end %>
