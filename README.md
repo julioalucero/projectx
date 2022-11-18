@@ -18,6 +18,10 @@ $ rails s
 
 Go to http://localhost:3000
 
+## Login
+
+Use the `Sign in` with the `Sign in with Developer` option. Use any name/email pair (it will create a user if it doesn't exists). Use `admin`/`admin@projectx.com` to log in as an admin user.
+
 ## Running Tests
 
 ```

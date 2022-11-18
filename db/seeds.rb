@@ -5,14 +5,24 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-best_case_points = [0, 1, 2, 3]
-worst_case_points = [5, 8, 13, 21]
-
-foo_user = User.find_or_create_by(email: "foo@example.com", name: "Foo") { |user|
+User.find_or_create_by!(
+  email: "admin@projectx.com",
+  name: "admin",
+  admin: true,
+  provider: "developer",
+  uid: "admin@projectx.com"
+) { |user|
   user.password = "123456"
 }
 
-bar_user = User.find_or_create_by(email: "bar@example.com", name: "bar") { |user|
+best_case_points = [0, 1, 2, 3]
+worst_case_points = [5, 8, 13, 21]
+
+foo_user = User.find_or_create_by(email: "foo@projectx.com", name: "Foo") { |user|
+  user.password = "123456"
+}
+
+bar_user = User.find_or_create_by(email: "bar@projectx.com", name: "bar") { |user|
   user.password = "123456"
 }
 
@@ -35,7 +45,7 @@ rand(1..8).times { child_three.stories.create(title: Faker::ChuckNorris.fact) }
 
 # ============= Start "hello.io client" project
 hello_io = Project.find_or_create_by(title: "Hello.io Client")
-child_two.stories.each { |story| hello_io.stories.create(story.dup.attributes) }
+rand(4..8).times { hello_io.stories.create(title: Faker::ChuckNorris.fact) }
 
 hello_io.stories.map do |story|
   estimate = {user: users.sample, best_case_points: best_case_points.sample, worst_case_points: worst_case_points.sample}
