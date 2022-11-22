@@ -13,11 +13,6 @@ end
 DOCKER_PREFIX = "docker-compose run --rm web "
 
 chdir APP_ROOT do
-  puts "== Copy .env =="
-  unless File.exist?(".env")
-    cp ".env.sample", ".env"
-  end
-
   puts "== Build container =="
   system! "docker-compose build"
 
