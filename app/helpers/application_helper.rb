@@ -14,7 +14,7 @@ module ApplicationHelper
     page_title = ""
     page_title += "#{@project&.parent&.title} - " if @project&.parent&.present?
     page_title += "#{@project.title} - " if @project&.title&.present?
-    page_title += "Points"
+    page_title += "ProjectX"
     page_title
   end
 
@@ -23,7 +23,7 @@ module ApplicationHelper
   end
 
   def header_title
-    @project&.breadcrumb || "points app"
+    @project&.breadcrumb || "ProjectX"
   end
 
   def markdown(text)

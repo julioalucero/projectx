@@ -32,7 +32,7 @@ $ rails spec
 
 > NOTE: You'll need to have docker and docker-compose installed
 
-Build the points docker image
+Build the ProjectX's docker image
 
 ```bash
 ./bin/setup_with_docker

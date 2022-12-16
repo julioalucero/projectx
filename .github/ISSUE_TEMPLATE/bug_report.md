@@ -4,7 +4,6 @@ about: Create a report to help us improve
 title: ""
 labels: "Bug"
 assignees: ""
-
 ---
 
 **IMPORTANT: please make sure you ask yourself all intro questions and fill all sections of the template.**
@@ -15,10 +14,9 @@ assignees: ""
 - [ ] I checked to make sure that this issue has not already been filed
 - [ ] I'm reporting the issue to the correct repository (for multi-repository projects)
 
-
 **Branch/Commit:**
 
-Inform what branch/commit of Points you are using.
+Inform what branch/commit of ProjectX you are using.
 
 **Expected behavior:**
 
@@ -57,5 +55,3 @@ If the issue has an effect in the frontend, include any relevant screenshots and
 **Logs**
 
 Include relevant log snippets or files here.
-
-**I will abide by the [code of conduct](https://github.com/fastruby/points/blob/main/CODE_OF_CONDUCT.md)**
