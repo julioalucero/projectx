@@ -1,11 +1,9 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
-  before_action :find_project, only: [:show, :edit, :update, :sort, :sort_stories, :destroy, :new_sub_project, :toggle_archive, :toggle_locked]
-  before_action :ensure_unarchived!, only: [:edit, :new_sub_project, :update]
+  before_action :find_project, only: [:show, :edit, :update, :sort, :sort_stories, :destroy, :new_sub_project]
 
   def index
-    status = params[:archived] == "true" ? "archived" : nil
-    @projects = Project.where(parent_id: nil, status: status)
+    @projects = Project.parents
   end
 
   def new
@@ -27,35 +25,6 @@ class ProjectsController < ApplicationController
       @project.stories.where(id: id).update_all(position: index + 1)
     end
     head :ok
-  end
-
-  def toggle_archive
-    @project.toggle_archived!
-  end
-
-  # PATCH /projects/1/toggle_locked.js
-  def toggle_locked
-    if @project.locked_at.nil?
-      @project.update(locked_at: Time.current)
-    else
-      @project.update(locked_at: nil)
-    end
-  end
-
-  def new_clone
-    @original = Project.includes(:projects, stories: :estimates).find(params[:id])
-  end
-
-  def clone
-    original = Project.includes(stories: :estimates).find(params[:id])
-    clone = Project.create(clone_params)
-    original.clone_stories_into(clone)
-    if clone.parent.nil? && original.projects
-      original.clone_projects_into(clone, only: params[:sub_project_ids])
-    end
-
-    flash[:success] = "Project cloned!"
-    redirect_to "/projects/#{clone.id}"
   end
 
   def create
@@ -83,7 +52,6 @@ class ProjectsController < ApplicationController
   end
 
   def update
-    authorize(@project)
     if @project.update(projects_params)
       respond_to do |format|
         format.html do
@@ -112,9 +80,5 @@ class ProjectsController < ApplicationController
 
   def projects_params
     params.require(:project).permit(:title, :status, :parent_id)
-  end
-
-  def clone_params
-    params.require(:project).permit(:title, :parent_id)
   end
 end

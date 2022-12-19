@@ -4,7 +4,6 @@ class StoriesController < ApplicationController
   before_action :find_project, except: [:bulk_destroy, :render_markdown, :edit, :update, :destroy, :show, :move]
   before_action :find_story, only: [:edit, :update, :destroy, :show, :move]
   before_action :validate_url_product_id, only: [:edit, :update, :destroy, :show, :move]
-  before_action :ensure_unarchived!, except: [:show, :bulk_destroy, :render_markdown, :move]
 
   include ApplicationHelper
 
@@ -128,7 +127,7 @@ class StoriesController < ApplicationController
   end
 
   def stories_params
-    params.require(:story).permit(:title, :description, :extra_info, :project_id)
+    params.require(:story).permit(:title, :description, :project_id)
   end
 
   def expected_csv_headers?(file)

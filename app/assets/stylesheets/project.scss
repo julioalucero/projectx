@@ -287,37 +287,3 @@
     }
   }
 }
-
-#sub-projects-to-clone {
-  margin-bottom: 2rem;
-  .no-parent-disclaimer {
-    display: none;
-    font-weight: bold;
-  }
-  button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    margin-right: 1rem;
-    margin-top: 0.2rem;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-  h4 {
-    margin-bottom: 0.5rem;
-  }
-  label {
-    margin-top: 0.2rem;
-  }
-  &.is-not-parent {
-    p,
-    button,
-    label {
-      display: none;
-    }
-    .no-parent-disclaimer {
-      display: block;
-    }
-  }
-}

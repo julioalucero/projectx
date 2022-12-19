@@ -1,10 +1,6 @@
 document.addEventListener("turbolinks:load", function () {
   $("input[name='stories[]']").click(() => {
     const selected = $("input[name='stories[]']:checked");
-    const is_unlocked = $("#stories").data("unlocked");
-    if (!is_unlocked) {
-      return;
-    }
 
     if (selected.length > 0) {
       const ending = selected.length == 1 ? "y" : "ies";
@@ -63,30 +59,6 @@ document.addEventListener("turbolinks:load", function () {
       },
     });
   });
-
-  // bind select/unselect all when cloning projects
-  document.querySelectorAll("#select-all, #unselect-all").forEach((button) => {
-    const setCheck = button.id === "select-all" ? true : false;
-
-    button.addEventListener("click", (e) => {
-      e.preventDefault();
-      toggleCloneSubProjects(setCheck);
-    });
-  });
-
-  // unselect all if clone is not a parent
-  const projectCloneParent = document.getElementById("project_parent_id");
-  const subProjects = document.getElementById("sub-projects-to-clone");
-
-  if (projectCloneParent && subProjects) {
-    projectCloneParent.addEventListener("change", (e) => {
-      if (projectCloneParent.value !== "") {
-        subProjects.classList.add("is-not-parent");
-      } else {
-        subProjects.classList.remove("is-not-parent");
-      }
-    });
-  }
 });
 
 const filterStories = () => {
@@ -112,9 +84,3 @@ const filterStories = () => {
     }
   });
 };
-
-function toggleCloneSubProjects(value) {
-  document
-    .querySelectorAll("#sub-projects-to-clone input[type='checkbox']")
-    .forEach((el) => (el.checked = value));
-}

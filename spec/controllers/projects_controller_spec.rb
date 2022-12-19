@@ -4,7 +4,6 @@ RSpec.describe ProjectsController, type: :controller do
   render_views
 
   let!(:project) { FactoryBot.create(:project, status: nil) }
-  let!(:archived_project) { FactoryBot.create(:project, status: "archived") }
 
   before do
     @request.env["devise.mapping"] = Devise.mappings[:user]
@@ -12,23 +11,13 @@ RSpec.describe ProjectsController, type: :controller do
     sign_in user
   end
 
-  describe "#index without archived params" do
+  describe "#index" do
     before do
       get :index
     end
 
-    it "shows me a list of all the projects" do
+    it "shows a list of all the projects" do
       expect(assigns(:projects)).to eq [project]
-    end
-  end
-
-  describe "#index with archived params" do
-    before do
-      get :index, params: {archived: true}
-    end
-
-    it "shows me a list of all the archived projects" do
-      expect(assigns(:projects)).to eq [archived_project]
     end
   end
 
@@ -141,112 +130,6 @@ RSpec.describe ProjectsController, type: :controller do
       put :update, params: {id: project.id, project: {title: "New Project Title"}}
 
       expect(project.reload.title).to eq "New Project Title"
-    end
-  end
-
-  describe "#toggle_archive" do
-    context "should set the status of the project to" do
-      it "archived when it is unarchived" do
-        put :toggle_archive, params: {id: project.id}, xhr: true
-        expect(assigns[:project]).to be_archived
-      end
-
-      it "nil when it is archived" do
-        put :toggle_archive, params: {id: archived_project.id}, xhr: true
-        expect(assigns[:project]).not_to be_archived
-      end
-    end
-  end
-
-  describe "#toggle_locked" do
-    context "when locking a project" do
-      it "returns a datetime" do
-        patch :toggle_locked, params: {id: project.id}, xhr: true
-        expect(assigns[:project]).to be_locked_at
-      end
-
-      it "returns a js response" do
-        patch :toggle_locked, params: {id: project.id}, xhr: true
-        expect(request.format.symbol).to eq(:js)
-      end
-    end
-  end
-
-  describe "cloning" do
-    it "redirects to cloned project" do
-      expect {
-        post :clone, params: {id: project.id, project: {title: "New project"}}
-      }.to change(Project.parents, :count).by(1)
-
-      expect(Project.parents.last.title).to eq("New project")
-      expect(response).to redirect_to "/projects/#{Project.last.id}"
-      expect(flash[:success]).to eq "Project cloned!"
-    end
-
-    context "with a sub project" do
-      let!(:sub_project) { FactoryBot.create(:project, parent: project) }
-
-      it "clones the sub projects when cloning a parent" do
-        expect {
-          post :clone, params: {id: project.id, project: {title: "New title"}}
-        }.to change(Project.parents, :count).by(1)
-
-        last_project = Project.parents.last
-        expect(last_project.id).not_to eq(project.id)
-        expect(project.projects.reload.count).to eq(1)
-        expect(last_project.projects.reload.count).to eq project.projects.count
-      end
-
-      it "clones a sub project as a parent project" do
-        expect {
-          post :clone, params: {id: sub_project.id, project: {title: "New title", parent_id: nil}}
-        }.to change(Project, :count).by(1)
-
-        last_project = Project.last
-        expect(last_project.parent).to be_nil
-      end
-
-      it "clones a sub project in another parent" do
-        other_project = FactoryBot.create(:project)
-
-        expect {
-          post :clone, params: {id: sub_project.id, project: {title: "New title", parent_id: other_project.id}}
-        }.to change(other_project.projects.reload, :count).by(1)
-
-        last_project = other_project.projects.reload.last
-        expect(last_project.parent).to eq(other_project)
-      end
-
-      it "ignores sub-projects if not cloned as a parent" do
-        other_project = FactoryBot.create(:project)
-
-        expect {
-          post :clone, params: {id: project.id, project: {title: "New title", parent_id: other_project.id}, sub_project_ids: [sub_project.id]}
-        }.to change(Project, :count).by(1)
-
-        last_project = other_project.projects.reload.last
-        expect(last_project.projects).to be_empty
-      end
-    end
-
-    context "with stories" do
-      it "creates a cloned project with matching stories" do
-        story = project.stories.create({title: "Story 1"})
-
-        post :clone, params: {id: project.id, project: {title: "New title"}}
-
-        expect(Project.last.stories.first.id).not_to eq story.id
-        expect(Project.last.stories.first.title).to eq story.title
-      end
-
-      it "creates stories without estimates" do
-        story = project.stories.create({title: "Story 1"})
-        story.estimates.create({best_case_points: 1, worst_case_points: 3})
-
-        post :clone, params: {id: project.id, project: {title: "New title"}}
-
-        expect(Project.last.stories.first.estimates).to be_empty
-      end
     end
   end
 

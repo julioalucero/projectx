@@ -10,7 +10,6 @@ class Project < ApplicationRecord
 
   before_create :add_position
 
-  scope :active, -> { where.not(status: "archived").or(where(status: nil)) }
   scope :parents, -> { where(parent: nil) }
   scope :sub_projects_with_ordered_stories, ->(project_id) {
     where(parent_id: project_id)
@@ -46,39 +45,13 @@ class Project < ApplicationRecord
     end
   end
 
-  def archived?
-    return parent.archived? if parent_id.present?
-
-    status == "archived"
-  end
-
   def breadcrumb
     parent.present? ? "#{parent.breadcrumb} » #{title}" : title
-  end
-
-  def toggle_archived!
-    return unless parent_id.nil?
-
-    archived? ? unarchive : archive
   end
 
   # returns all the sub-projects from its parent's project except self
   def siblings
     parent_id ? Project.where(parent_id: parent_id).where.not(id: id) : []
-  end
-
-  def clone_stories_into(clone)
-    stories.each { |story| clone.stories.create(story.dup.attributes) }
-  end
-
-  def clone_projects_into(clone, only: nil)
-    return if only == []
-
-    to_clone = only.nil? ? projects : projects.where(id: only)
-    to_clone.each do |sub_project|
-      sub_project_clone = clone.projects.create(sub_project.dup.attributes)
-      sub_project.clone_stories_into(sub_project_clone)
-    end
   end
 
   private
@@ -89,15 +62,5 @@ class Project < ApplicationRecord
 
     last_position = parent.projects.where.not(position: nil).order(position: :asc).last&.position || 0
     self.position = last_position + 1
-  end
-
-  def archive
-    Project.where(id: id).or(Project.where(parent_id: id)).update_all(status: "archived")
-    self.status = "archived"
-  end
-
-  def unarchive
-    Project.where(id: id).or(Project.where(parent_id: id)).update_all(status: nil)
-    self.status = nil
   end
 end

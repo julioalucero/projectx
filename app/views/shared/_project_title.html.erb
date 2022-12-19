@@ -6,7 +6,7 @@
   </span>
 <% end %>
 
-<% if allow_edit && is_unlocked?(project) %>
+<% if allow_edit %>
   <div class="project-title">
     <button><%= project.title %></button>
     <%= form_for project, remote: true do |f| %>
@@ -20,6 +20,5 @@
 <% end %>
 
 <div>
-  <span class="status-badge locked <%= "hide" if project.locked_at.nil? %>">Locked</span>
   <span class="status-badge <%= project.status %> <%= "hide" if project.status.nil? %>"><%= project.status %></span>
 </div>
