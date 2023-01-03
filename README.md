@@ -6,14 +6,14 @@ This project is used by the recruitment team for their Rails interview process.
 
 To get started with the app, clone the repo and then install the needed gems running the setup script:
 
-```
-$ ./bin/setup
+```bash
+./bin/setup
 ```
 
 ## Starting the Server
 
-```
-$ rails s
+```bash
+rails s
 ```
 
 Go to http://localhost:3000
@@ -24,8 +24,8 @@ Use the `Sign in` with the `Sign in with Developer` option. Use any name/email p
 
 ## Running Tests
 
-```
-$ rails spec
+```bash
+rails spec
 ```
 
 ## Using Docker
@@ -40,12 +40,8 @@ Build the ProjectX's docker image
 
 Run the app
 
-```
+```bash
 ./bin/start_with_docker
-
-or
-
-docker-compose up web-next
 ```
 
 ## Admin Users
@@ -58,9 +54,11 @@ If you want to set the flag for a user, you can follow these steps:
 
 ```bash
 rails console
+```
 
 or
 
+```bash
 docker-compose run --rm web rails console
 ```
 
