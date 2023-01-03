@@ -17,7 +17,7 @@ class StoriesController < ApplicationController
   end
 
   def create
-    @story = Story.new(stories_params)
+    @story = Story.new(story_params)
     @story.project_id = @project.id
 
     if @story.save
@@ -48,7 +48,7 @@ class StoriesController < ApplicationController
   end
 
   def update
-    if @story.update(stories_params)
+    if @story.update(story_params)
       flash[:success] = "Story updated!"
       redirect_to project_path(@project.id)
     else
@@ -126,7 +126,7 @@ class StoriesController < ApplicationController
     raise ActionController::RoutingError.new("This story was not found for this project") unless params[:project_id] == @project.id.to_s
   end
 
-  def stories_params
+  def story_params
     params.require(:story).permit(:title, :description, :project_id)
   end
 
