@@ -12,7 +12,6 @@
 
 .story-description,
 .story_preview {
-  margin-bottom: 25px;
   font-size: 15px;
   p {
     margin-top: 1em;
@@ -62,46 +61,15 @@
 
 .new_story,
 .edit_story {
-  display: grid;
-  grid-template-areas:
-    "error error"
-    "title preview"
-    "description preview"
-    "submit .";
-  grid-template-columns: repeat(2, minmax(50%, 1fr));
-  grid-column-gap: 10px;
-
-  #error_explanation {
-    grid-area: error;
+  .wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
   }
 
-  .field {
-    align-self: start;
-
-    &.story_title {
-      grid-area: title;
-    }
-
-    &.story_description {
-      grid-area: description;
-    }
-  }
-
+  .story_description,
   .story_preview {
-    grid-area: preview;
-    .content {
-      overflow: auto;
-      max-height: min(50vh, 700px);
-      // prevent long links from overflowing
-      a {
-        word-break: break-all;
-      }
-    }
-  }
-
-  .btn-group {
-    justify-self: start;
-    grid-area: submit;
+    width: 48%;
   }
 }
 

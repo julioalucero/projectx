@@ -18,17 +18,19 @@
     <%= f.text_field :title, placeholder: "Story Title", class: "project-story-title", autofocus: true %>
   </div>
 
-  <div class="field story_description">
-    <%= f.label :description, "Description (Markdown)" %>
-    <%= f.text_area :description, placeholder: "Description", class: "story-description", rows: 20, 'data-has-preview': true, 'data-preview-target': 'story_preview' %>
+  <div class="field wrapper">
+    <div class="story_description">
+      <%= f.label :description, "Description (Markdown)" %>
+      <%= f.text_area :description, placeholder: "Description", class: "story-description", rows: 20, 'data-has-preview': true, 'data-preview-target': 'story_preview' %>
+    </div>
+
+    <div class="story_preview">
+      <label>Description Preview</label>
+      <div class="content"><%= markdown(@story.description) %></div>
+    </div>
   </div>
 
-  <div class="story_preview">
-    <label>Description Preview</label>
-    <div class="content"><%= markdown(@story.description) %></div>
-  </div>
-
-  <div class="btn-group">
+  <div class="field btn-group">
     <%= f.submit yield(:button_text), class: "button", id: "edit" %>
   </div>
 <% end %>
