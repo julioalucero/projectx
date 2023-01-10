@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   get "home/index"
   get "reports/index"
 
-  resource :stories do
+  resource :stories, only: [] do
     post :bulk_destroy, to: "stories#bulk_destroy"
     post :render_markdown
   end
