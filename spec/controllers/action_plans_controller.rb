@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe ActionPlansController, type: :controller do
-  let(:project) { FactoryBot.create(:project) }
+  let(:project) { create(:project) }
 
   describe "#show" do
     it "redirects to sign_in route if not authenticated" do
@@ -11,7 +11,7 @@ RSpec.describe ActionPlansController, type: :controller do
 
     it "returns view when user is signed in" do
       @request.env["devise.mapping"] = Devise.mappings[:user]
-      user = FactoryBot.create(:user)
+      user = create(:user)
       sign_in user
 
       get :show, params: {project_id: project.id}

@@ -1,8 +1,8 @@
 require "rails_helper"
 
 RSpec.describe "managing projects", js: true do
-  let(:user) { FactoryBot.create(:user) }
-  let(:project) { FactoryBot.create(:project) }
+  let(:user) { create(:user) }
+  let(:project) { create(:project) }
 
   before do
     login_as(user, scope: :user)
@@ -70,9 +70,9 @@ RSpec.describe "managing projects", js: true do
     end
 
     it "lists available sub projects with a link" do
-      sub_project_one = FactoryBot.create(:project, title: "Sub-project 1", parent_id: project.id)
-      sub_project_two = FactoryBot.create(:project, title: "Sub-project 2", parent_id: project.id)
-      project_two = FactoryBot.create(:project)
+      sub_project_one = create(:project, title: "Sub-project 1", parent_id: project.id)
+      sub_project_two = create(:project, title: "Sub-project 2", parent_id: project.id)
+      project_two = create(:project)
       visit projects_path
 
       within(".project-card", text: project.title) do
@@ -85,7 +85,7 @@ RSpec.describe "managing projects", js: true do
     end
 
     it "allow me to visit sub-projects with a link" do
-      sub_project_one = FactoryBot.create(:project, title: "Sub-project 1", parent_id: project.id)
+      sub_project_one = create(:project, title: "Sub-project 1", parent_id: project.id)
       visit projects_path
 
       within(".project-card", text: project.title) do
@@ -149,8 +149,8 @@ RSpec.describe "managing projects", js: true do
 
   context "hierarchy sidebar" do
     context "with sub projects" do
-      let!(:sub_project1) { FactoryBot.create(:project, parent: project) }
-      let!(:sub_project2) { FactoryBot.create(:project, parent: project) }
+      let!(:sub_project1) { create(:project, parent: project) }
+      let!(:sub_project2) { create(:project, parent: project) }
 
       it "renders a sidebar" do
         visit project_path(project)

@@ -1,9 +1,9 @@
 require "rails_helper"
 
 RSpec.describe "managing estimates", js: true do
-  let(:user) { FactoryBot.create(:user) }
-  let(:project) { FactoryBot.create(:project) }
-  let!(:story) { FactoryBot.create(:story, project: project) }
+  let(:user) { create(:user) }
+  let(:project) { create(:project) }
+  let!(:story) { create(:story, project: project) }
 
   before do
     login_as(user, scope: :user)

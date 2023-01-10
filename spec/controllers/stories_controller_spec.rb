@@ -3,12 +3,12 @@ require "rails_helper"
 RSpec.describe StoriesController, type: :controller do
   render_views
 
-  let!(:project) { FactoryBot.create(:project) }
-  let!(:story) { FactoryBot.create(:story, project: project) }
+  let!(:project) { create(:project) }
+  let!(:story) { create(:story, project: project) }
 
   before do
     @request.env["devise.mapping"] = Devise.mappings[:user]
-    user = FactoryBot.create(:user)
+    user = create(:user)
     sign_in user
   end
 
@@ -21,7 +21,7 @@ RSpec.describe StoriesController, type: :controller do
 
   describe "#create" do
     context "with valid attributes" do
-      let(:valid_params) { FactoryBot.attributes_for(:story) }
+      let(:valid_params) { attributes_for(:story) }
 
       it "creates a new story" do
         expect {
@@ -104,7 +104,7 @@ RSpec.describe StoriesController, type: :controller do
   end
 
   describe "#bulk_destroy" do
-    let(:stories) { FactoryBot.create_list(:story, 2, project: project) }
+    let(:stories) { create_list(:story, 2, project: project) }
 
     it "deletes multiple stories" do
       ids = stories.map(&:id)
@@ -117,9 +117,9 @@ RSpec.describe StoriesController, type: :controller do
 
   describe "#move" do
     it "does not allow moving stories to non-sibling projects" do
-      project2 = FactoryBot.create(:project, parent: project)
-      project3 = FactoryBot.create(:project)
-      story = FactoryBot.create(:story, project: project2)
+      project2 = create(:project, parent: project)
+      project3 = create(:project)
+      story = create(:story, project: project2)
 
       put :move, params: {project_id: project2.id, story_id: story.id, to_project: project3.id}
       expect(flash[:error]).to eq "Selected project does not exist or is not a sibling."

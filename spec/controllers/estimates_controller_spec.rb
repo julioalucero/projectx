@@ -3,10 +3,10 @@ require "rails_helper"
 RSpec.describe EstimatesController, type: :controller do
   render_views
 
-  let(:user) { FactoryBot.create(:user) }
-  let(:project) { FactoryBot.create(:project) }
-  let(:story) { FactoryBot.create(:story, project: project) }
-  let(:estimate) { FactoryBot.create(:estimate, story: story, user: user) }
+  let(:user) { create(:user) }
+  let(:project) { create(:project) }
+  let(:story) { create(:story, project: project) }
+  let(:estimate) { create(:estimate, story: story, user: user) }
 
   before do
     @request.env["devise.mapping"] = Devise.mappings[:user]
@@ -36,8 +36,8 @@ RSpec.describe EstimatesController, type: :controller do
 
   describe "#edit as other user" do
     it "disallows editing another users' estimate" do
-      user2 = FactoryBot.create(:user)
-      estimate2 = FactoryBot.create(:estimate, story: story, user: user2)
+      user2 = create(:user)
+      estimate2 = create(:estimate, story: story, user: user2)
 
       get :edit, params: {id: estimate2.id, story_id: story.id, project_id: project.id}
 
@@ -99,7 +99,7 @@ RSpec.describe EstimatesController, type: :controller do
         }
       end
 
-      let!(:estimate) { FactoryBot.create(:estimate, story: story, user: user, best_case_points: 2, worst_case_points: 5) }
+      let!(:estimate) { create(:estimate, story: story, user: user, best_case_points: 2, worst_case_points: 5) }
 
       it "does not create a new estimate" do
         expect {
@@ -130,8 +130,8 @@ RSpec.describe EstimatesController, type: :controller do
     end
 
     it "disallows destroying another users' estimate" do
-      user2 = FactoryBot.create(:user)
-      estimate2 = FactoryBot.create(:estimate, story: story, user: user2)
+      user2 = create(:user)
+      estimate2 = create(:estimate, story: story, user: user2)
 
       delete :destroy, params: {id: estimate2.id, story_id: story.id, project_id: project.id}
 
@@ -151,8 +151,8 @@ RSpec.describe EstimatesController, type: :controller do
     end
 
     it "disallows updating another users' estimate" do
-      user2 = FactoryBot.create(:user)
-      estimate2 = FactoryBot.create(:estimate, story: story, user: user2)
+      user2 = create(:user)
+      estimate2 = create(:estimate, story: story, user: user2)
 
       put :update, params: {id: estimate2.id,
                             story_id: story.id,

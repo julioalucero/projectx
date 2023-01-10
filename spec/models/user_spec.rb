@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe User, type: :model do
-  subject { FactoryBot.create(:user) }
+  subject { create(:user) }
 
   describe "Class Methods" do
     describe ".from_omniauth" do

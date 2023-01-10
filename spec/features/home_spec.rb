@@ -1,19 +1,19 @@
 require "rails_helper"
 
 RSpec.describe "home specs" do
-  let(:user) { FactoryBot.create(:user) }
+  let(:user) { create(:user) }
 
   before do
     login_as(user, scope: :user)
   end
 
   context "with projects" do
-    let!(:project) { FactoryBot.create(:project) }
+    let!(:project) { create(:project) }
 
     context "with sub projects" do
-      let!(:sub_project1) { FactoryBot.create(:project, parent: project, position: 1) }
-      let!(:sub_project2) { FactoryBot.create(:project, parent: project, position: 2) }
-      let!(:sub_project3) { FactoryBot.create(:project, parent: project, position: 3) }
+      let!(:sub_project1) { create(:project, parent: project, position: 1) }
+      let!(:sub_project2) { create(:project, parent: project, position: 2) }
+      let!(:sub_project3) { create(:project, parent: project, position: 3) }
 
       it "allows re-arranging the sub projects", js: true do
         visit root_path

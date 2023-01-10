@@ -1,9 +1,9 @@
 require "rails_helper"
 
 RSpec.describe "managing reports", js: true do
-  let!(:user) { FactoryBot.create(:user, :admin, name: "John") }
-  let!(:project) { FactoryBot.create(:project) }
-  let!(:story) { FactoryBot.create(:story, project: project, real_score: 4) }
+  let!(:user) { create(:user, :admin, name: "John") }
+  let!(:project) { create(:project) }
+  let!(:story) { create(:story, project: project, real_score: 4) }
 
   before do
     login_as(user, scope: :user)
@@ -23,7 +23,7 @@ RSpec.describe "managing reports", js: true do
   end
 
   context "with one estimate" do
-    let!(:estimate) { FactoryBot.create(:estimate, story: story, user: user) }
+    let!(:estimate) { create(:estimate, story: story, user: user) }
 
     it "allows me see a report with a project title, list of stories and estimates" do
       visit project_report_path(project.id)
@@ -41,12 +41,12 @@ RSpec.describe "managing reports", js: true do
   end
 
   context "with more than one estimate" do
-    let!(:user_2) { FactoryBot.create(:user, name: "Sarah") }
+    let!(:user_2) { create(:user, name: "Sarah") }
     let!(:estimate) do
-      FactoryBot.create(:estimate, story: story, user: user, best_case_points: 1, worst_case_points: 4)
+      create(:estimate, story: story, user: user, best_case_points: 1, worst_case_points: 4)
     end
     let!(:estimate_2) do
-      FactoryBot.create(:estimate, story: story, user: user_2, best_case_points: 3, worst_case_points: 8)
+      create(:estimate, story: story, user: user_2, best_case_points: 3, worst_case_points: 8)
     end
     let(:best_average) { "2.0" }
     let(:worst_average) { "6.0" }
@@ -93,7 +93,7 @@ RSpec.describe "managing reports", js: true do
     # even after that bug gets fixed, we have to be sure we handle old data correctly
     context "by the same user" do
       let!(:another_estimate) do
-        x = FactoryBot.build(:estimate, story: story, user: user, best_case_points: 8, worst_case_points: 13, created_at: 2.minutes.from_now)
+        x = build(:estimate, story: story, user: user, best_case_points: 8, worst_case_points: 13, created_at: 2.minutes.from_now)
         x.save(validate: false)
       end
 

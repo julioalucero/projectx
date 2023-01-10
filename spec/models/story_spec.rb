@@ -1,15 +1,15 @@
 require "rails_helper"
 
 RSpec.describe Story, type: :model do
-  subject { FactoryBot.create(:story, real_score: real_score) }
+  subject { create(:story, real_score: real_score) }
   let(:real_score) { 1 }
 
   it { should validate_presence_of(:title) }
 
   it { should belong_to(:project) }
 
-  let(:user) { FactoryBot.create(:user) }
-  let(:user2) { FactoryBot.create(:user) }
+  let(:user) { create(:user) }
+  let(:user2) { create(:user) }
 
   describe "#best_estimate_average" do
     context "there are no estimates" do
@@ -20,7 +20,7 @@ RSpec.describe Story, type: :model do
     context "there is one estimate" do
       let(:estimate_1) { Estimate.new(best_case_points: 1, worst_case_points: 2, user: user) }
       subject {
-        result = FactoryBot.create(:story)
+        result = create(:story)
         result.estimates = [estimate_1]
         result
       }
@@ -34,7 +34,7 @@ RSpec.describe Story, type: :model do
       let(:estimate_2) { Estimate.new(best_case_points: 100, worst_case_points: 200, user: user2) }
 
       subject {
-        result = FactoryBot.create(:story)
+        result = create(:story)
         result.estimates = [estimate_1, estimate_2]
         result
       }
@@ -90,7 +90,7 @@ RSpec.describe Story, type: :model do
     context "there is one estimate" do
       let(:estimate_1) { Estimate.new(best_case_points: 1, worst_case_points: 2, user: user) }
       subject {
-        result = FactoryBot.create(:story)
+        result = create(:story)
         result.estimates = [estimate_1]
         result
       }
@@ -105,7 +105,7 @@ RSpec.describe Story, type: :model do
       let(:estimate_2) { Estimate.new(best_case_points: 100, worst_case_points: 200, user: user2) }
 
       subject {
-        result = FactoryBot.create(:story)
+        result = create(:story)
         result.estimates = [estimate_1, estimate_2]
         result
       }

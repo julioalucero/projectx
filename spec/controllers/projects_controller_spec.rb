@@ -3,11 +3,11 @@ require "rails_helper"
 RSpec.describe ProjectsController, type: :controller do
   render_views
 
-  let!(:project) { FactoryBot.create(:project, status: nil) }
+  let!(:project) { create(:project, status: nil) }
 
   before do
     @request.env["devise.mapping"] = Devise.mappings[:user]
-    user = FactoryBot.create(:user)
+    user = create(:user)
     sign_in user
   end
 
@@ -52,7 +52,7 @@ RSpec.describe ProjectsController, type: :controller do
 
   describe "#create" do
     context "with valid attributes" do
-      let(:valid_params) { FactoryBot.attributes_for(:project) }
+      let(:valid_params) { attributes_for(:project) }
 
       it "creates a new project" do
         expect {
@@ -134,9 +134,9 @@ RSpec.describe ProjectsController, type: :controller do
   end
 
   describe "PATCH sort" do
-    let!(:sub_project1) { FactoryBot.create(:project, parent: project, position: 1) }
-    let!(:sub_project2) { FactoryBot.create(:project, parent: project, position: 2) }
-    let!(:sub_project3) { FactoryBot.create(:project, parent: project, position: 3) }
+    let!(:sub_project1) { create(:project, parent: project, position: 1) }
+    let!(:sub_project2) { create(:project, parent: project, position: 2) }
+    let!(:sub_project3) { create(:project, parent: project, position: 3) }
 
     it "changes the positions of the sub-projects" do
       patch :sort, params: {id: project.id, project: [sub_project3.id, sub_project1.id, sub_project2.id]}

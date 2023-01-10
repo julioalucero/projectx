@@ -1,9 +1,9 @@
 require "rails_helper"
 
 RSpec.describe "managing stories", js: true do
-  let(:user) { FactoryBot.create(:user) }
-  let(:project) { FactoryBot.create(:project) }
-  let!(:story) { FactoryBot.create(:story, project: project) }
+  let(:user) { create(:user) }
+  let(:project) { create(:project) }
+  let!(:story) { create(:story, project: project) }
 
   before do
     login_as(user, scope: :user)
@@ -129,9 +129,9 @@ RSpec.describe "managing stories", js: true do
   end
 
   it "can move stories between siblings" do
-    project2 = FactoryBot.create(:project, parent: project)
-    project3 = FactoryBot.create(:project, parent: project)
-    story = FactoryBot.create(:story, project: project2)
+    project2 = create(:project, parent: project)
+    project3 = create(:project, parent: project)
+    story = create(:story, project: project2)
 
     visit project_path(id: project2.id)
 
@@ -158,7 +158,7 @@ RSpec.describe "managing stories", js: true do
 
   # see issue #9 on github
   it "preserves order of stories when editing" do
-    empty_project = FactoryBot.create(:project)
+    empty_project = create(:project)
     visit project_path(id: empty_project.id)
     click_link "Add a Story"
     fill_in "Title", with: "Story 1"
@@ -217,8 +217,8 @@ RSpec.describe "managing stories", js: true do
   end
 
   it "allows sorting stories", js: true do
-    FactoryBot.create(:story, project: project, title: "Juan and Aysan Code!")
-    story3 = FactoryBot.create(:story, project: project, title: "Last story")
+    create(:story, project: project, title: "Juan and Aysan Code!")
+    story3 = create(:story, project: project, title: "Last story")
 
     visit project_path(project)
 

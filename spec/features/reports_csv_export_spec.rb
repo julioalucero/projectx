@@ -1,12 +1,12 @@
 require "rails_helper"
 
 RSpec.describe "exporting reports to csv", js: true do
-  let(:user) { FactoryBot.create(:user, :admin) }
+  let(:user) { create(:user, :admin) }
 
   before { login_as(user, scope: :user) }
 
   context "story has only one estimate" do
-    let(:estimate) { FactoryBot.create(:estimate) }
+    let(:estimate) { create(:estimate) }
     let(:project) { estimate.story.project }
 
     it "renders download button" do
@@ -17,9 +17,9 @@ RSpec.describe "exporting reports to csv", js: true do
 
   context "story has at least two estimates" do
     let(:project) { story.project }
-    let(:story) { FactoryBot.create(:story) }
+    let(:story) { create(:story) }
 
-    before { FactoryBot.create_list(:estimate, 2, story: story) }
+    before { create_list(:estimate, 2, story: story) }
 
     it "renders download button" do
       visit project_report_path(project.id)
@@ -28,7 +28,7 @@ RSpec.describe "exporting reports to csv", js: true do
   end
 
   context "with no estimates" do
-    let(:project) { FactoryBot.create(:project) }
+    let(:project) { create(:project) }
 
     it "does not render download button" do
       visit project_report_path(project.id)

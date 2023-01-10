@@ -4,12 +4,12 @@ require "csv"
 RSpec.describe ReportsController, type: :controller do
   before do
     @request.env["devise.mapping"] = Devise.mappings[:user]
-    admin = FactoryBot.create(:user, :admin)
+    admin = create(:user, :admin)
     sign_in admin
   end
 
   describe "#index" do
-    let!(:project) { FactoryBot.create(:project) }
+    let!(:project) { create(:project) }
 
     before do
       get :index
@@ -22,7 +22,7 @@ RSpec.describe ReportsController, type: :controller do
 
   describe "#show" do
     context "using HTML response format" do
-      let!(:project) { FactoryBot.create(:project) }
+      let!(:project) { create(:project) }
 
       before do
         get :show, params: {project_id: project.id}
@@ -38,7 +38,7 @@ RSpec.describe ReportsController, type: :controller do
     end
 
     context "specifying CSV format" do
-      let(:estimate) { FactoryBot.create(:estimate) }
+      let(:estimate) { create(:estimate) }
       let(:story) { estimate.story }
       let(:project) { story.project }
 

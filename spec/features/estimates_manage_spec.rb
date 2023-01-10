@@ -1,9 +1,9 @@
 require "rails_helper"
 
 RSpec.describe "managing estimates", js: true do
-  let(:user) { FactoryBot.create(:user) }
-  let(:project) { FactoryBot.create(:project) }
-  let!(:story) { FactoryBot.create(:story, project: project) }
+  let(:user) { create(:user) }
+  let(:project) { create(:project) }
+  let!(:story) { create(:story, project: project) }
 
   before do
     login_as(user, scope: :user)
@@ -38,7 +38,7 @@ RSpec.describe "managing estimates", js: true do
   end
 
   context "with one estimated story" do
-    let!(:estimate) { FactoryBot.create(:estimate, story: story, user: user) }
+    let!(:estimate) { create(:estimate, story: story, user: user) }
 
     before do
       visit project_path(id: project.id)
@@ -66,7 +66,7 @@ RSpec.describe "managing estimates", js: true do
   end
 
   context "when best case estimate is greater than worst case estimate" do
-    let!(:estimate) { FactoryBot.create(:estimate, story: story, user: user) }
+    let!(:estimate) { create(:estimate, story: story, user: user) }
 
     before do
       visit project_path(id: project.id)
@@ -81,7 +81,7 @@ RSpec.describe "managing estimates", js: true do
   end
 
   context "when the story doesn't have a description" do
-    let!(:story) { FactoryBot.create(:story, project: project, description: nil) }
+    let!(:story) { create(:story, project: project, description: nil) }
 
     before do
       visit project_path(id: project.id)
