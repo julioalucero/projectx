@@ -14,6 +14,7 @@ RSpec.describe "managing real scores", js: true do
     click_link "Populate Real Scores"
     fill_in "stories[story_#{story.id}]", with: 5
     click_button "Submit"
+    expect(page).to have_content("Real scores populated")
     expect(story.reload.real_score).to eq 5
   end
 end

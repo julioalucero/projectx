@@ -21,12 +21,17 @@ RSpec.describe "managing estimates", js: true do
     end
 
     it "allows me to add an estimate" do
-      set_estimates(3, 8)
-      click_button "Create"
-      expect(Estimate.count).to eq 1
+      within_modal do
+        expect(page).to have_text("New Estimate")
+        expect(page).to have_content(story.description)
+        expect(current_path).to eq project_path(id: project.id)
 
-      expect(page).to have_content "3"
-      expect(page).to have_content "8"
+        set_estimates(3, 8)
+        click_button "Create"
+      end
+      expect_closed_modal
+
+      expect_story_estimates(story, 3, 8)
     end
 
     it "allows me to add an estimate", js: false do
