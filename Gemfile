@@ -1,3 +1,7 @@
+def next?
+  File.basename(__FILE__) == "Gemfile.next"
+end
+
 source "https://rubygems.org"
 
 ruby "3.0.2"
@@ -7,7 +11,11 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-gem "rails", "~> 6.1.4"
+if next?
+  gem "rails", "~> 7.0.8.3"
+else
+  gem "rails", "~> 6.1.4"
+end
 gem "devise"
 gem "bootstrap-sass", "3.4.1"
 gem "puma", "~> 4.3"
