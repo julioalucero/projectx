@@ -67,6 +67,26 @@ RSpec.describe ProjectsController, type: :controller do
 
         expect(response).to redirect_to project_path(project)
       end
+
+      context 'when creates a subproject' do
+        let!(:parent_project) { create(:project) }
+        let(:valid_params) { attributes_for(:project).merge(parent_id: parent_project.id) }
+
+        it "creates a new project" do
+          expect {
+            post :create, params: {project: valid_params}
+          }.to change(Project, :count).by(1)
+        end
+
+        it "redirects to the parent project" do
+          post :create, params: {project: valid_params}
+
+          project = Project.last
+
+          expect(project.parent).to eq(parent_project)
+          expect(response).to redirect_to project_path(project.parent)
+        end
+      end
     end
 
     context "with invalid attributes" do
