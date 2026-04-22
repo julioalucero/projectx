@@ -60,7 +60,7 @@ RSpec.describe ProjectsController, type: :controller do
         }.to change(Project, :count).by(1)
       end
 
-      it "redirects to the new project" do
+      it "redirects to the projects" do
         post :create, params: {project: valid_params}
 
         project = Project.last
